@@ -1,0 +1,31 @@
+# n8n 판: 같은 흐름을 노코드로 (n8n/workflow.json)
+# 생성: python ../../../_design/excalidraw_kit.py n8n-flow.yaml --out . --export
+name: n8n-flow
+title: n8n 판 — 같은 규칙을 노코드 흐름으로
+subtitle: Code 노드의 분류·검증 JS가 Python 기준 구현과 같은 판정을 내는지 테스트한다
+layout: grid
+gapX: 80
+gapY: 70
+maxTextWidth: 170
+nodes:
+  - {id: hook, label: "Webhook\nPDF 업로드", role: info, col: 0, row: 0}
+  - {id: watch, label: "폴더 감시\n/data/inbox", role: info, col: 0, row: 1}
+  - {id: pdf, label: "Extract from File\nPDF 텍스트", role: info, col: 1, row: 0}
+  - {id: cls, label: "Code\n텍스트 확인·분류", role: primary, col: 2, row: 0}
+  - {id: gate, label: "추출 가능?", role: warning, shape: diamond, col: 3, row: 0}
+  - {id: llm, label: "LLM Chain\n+ Gemini 모델\n재시도 3회", role: accent, col: 3, row: 1}
+  - {id: val, label: "Code\n스키마·업무 규칙", role: primary, col: 3, row: 2}
+  - {id: save, label: "Google Sheets\nextracted", role: success, col: 2, row: 2}
+  - {id: queue, label: "Google Sheets\nreview_queue", role: warning, col: 4, row: 0}
+  - {id: alert, label: "HTTP Request\n웹훅 알림", role: warning, col: 5, row: 0}
+edges:
+  - {from: hook, to: pdf}
+  - {from: watch, to: pdf}
+  - {from: pdf, to: cls}
+  - {from: cls, to: gate}
+  - {from: gate, to: llm, label: 예}
+  - {from: gate, to: queue, label: 텍스트 없음, role: danger}
+  - {from: llm, to: val}
+  - {from: val, to: save, label: 통과, role: success}
+  - {from: val, to: queue, label: 실패, role: danger}
+  - {from: queue, to: alert}

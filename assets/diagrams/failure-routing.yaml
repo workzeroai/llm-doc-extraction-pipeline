@@ -1,0 +1,40 @@
+# 실패 방어: 단계마다 원인 코드를 붙여 사람 확인 대기열로 보낸다
+# 생성: python ../../../_design/excalidraw_kit.py failure-routing.yaml --out . --export
+name: failure-routing
+title: 실패 방어 — 어디서 실패해도 확인 대기열로
+subtitle: 대기열 건은 저장소에 쓰지 않는다 · 원인 코드로 사람이 무엇을 볼지 바로 안다
+layout: grid
+gapX: 110
+gapY: 50
+maxTextWidth: 340
+nodes:
+  - {id: text, label: "텍스트 추출", role: info, col: 0, row: 0, width: 260}
+  - {id: cls, label: "유형 분류", role: info, col: 0, row: 1, width: 260}
+  - {id: llm, label: "LLM 추출\n일시 오류는 재시도 2회", role: accent, col: 0, row: 2, width: 260}
+  - {id: schema, label: "스키마 검사", role: primary, col: 0, row: 3, width: 260}
+  - {id: rules, label: "업무 규칙 검사\n합계·날짜·필수값\n사업자번호 검증", role: primary, col: 0, row: 4, width: 260}
+  - {id: save, label: "저장 SQLite·CSV", role: success, col: 0, row: 5, width: 260}
+  - {id: c1, label: "TEXT_EXTRACTION_FAILED\n텍스트 층 없는 스캔", role: warning, col: 1, row: 0, width: 380}
+  - {id: c2, label: "CLASSIFICATION_UNCERTAIN\n유형 후보가 둘 이상", role: warning, col: 1, row: 1, width: 380}
+  - {id: c3, label: "PROVIDER_ERROR\n재시도 소진 · 거절 · 잘림", role: warning, col: 1, row: 2, width: 380}
+  - {id: c4, label: "SCHEMA_MISMATCH\nJSON 아님 · 타입 · 키", role: warning, col: 1, row: 3, width: 380}
+  - {id: c5, label: "RULE_VIOLATION\nLOW_CONFIDENCE", role: warning, col: 1, row: 4, width: 380}
+  - {id: queue, label: "review_queue.csv\n+ 콘솔·웹훅 알림\n→ 사람이 원본 확인", role: danger, col: 2, row: 2, width: 260}
+edges:
+  - {from: text, to: cls}
+  - {from: cls, to: llm}
+  - {from: llm, to: schema}
+  - {from: schema, to: rules}
+  - {from: rules, to: save, label: 통과, role: success}
+  - {from: text, to: c1, label: 실패, role: danger}
+  - {from: cls, to: c2, label: 실패, role: danger}
+  - {from: llm, to: c3, label: 실패, role: danger}
+  - {from: schema, to: c4, label: 실패, role: danger}
+  - {from: rules, to: c5, label: 실패, role: danger}
+  - {from: c1, to: queue, style: dashed}
+  - {from: c2, to: queue, style: dashed}
+  - {from: c3, to: queue, style: dashed}
+  - {from: c4, to: queue, style: dashed}
+  - {from: c5, to: queue, style: dashed}
+zones:
+  - {id: human, label: 사람 확인 대기열 — 저장소에는 들어가지 않음, nodes: [c1, c2, c3, c4, c5, queue], role: warning}

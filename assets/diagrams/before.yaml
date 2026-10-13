@@ -1,0 +1,21 @@
+# 개선 전: 사람이 PDF를 열어 읽고 DB·시트에 옮겨 적는 흐름 (일반화한 예시)
+# 생성: python ../../../_design/excalidraw_kit.py before.yaml --out . --export
+name: before
+title: 개선 전 — 사람이 읽고 옮겨 적기
+subtitle: 건마다 PDF를 열어 값을 찾고 손으로 입력한다. 틀려도 아무도 모른다
+layout: vertical
+gapY: 60
+maxTextWidth: 230
+nodes:
+  - {id: inbox, label: "계약서·견적서·청구서 PDF\n메일·폴더로 도착", role: info, col: 0, row: 0}
+  - {id: read, label: "담당자가 PDF를 열어\n값을 눈으로 찾음", role: neutral, col: 0, row: 1}
+  - {id: type, label: "DB·시트에 손으로 입력\n(건마다 반복)", role: neutral, col: 0, row: 2}
+  - {id: check, label: "합계·날짜 확인?", role: warning, shape: diamond, col: 0, row: 3}
+  - {id: typo, label: "오타·누락이 그대로\n정산·계약 관리로", role: danger, col: 1, row: 3}
+  - {id: done, label: "기록 없음\n누가 언제 넣었는지 모름", role: danger, shape: ellipse, col: 0, row: 4}
+edges:
+  - {from: inbox, to: read}
+  - {from: read, to: type}
+  - {from: type, to: check}
+  - {from: check, to: typo, label: 건너뜀, role: danger, style: dashed}
+  - {from: check, to: done}

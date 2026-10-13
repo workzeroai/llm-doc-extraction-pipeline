@@ -1,0 +1,26 @@
+# 개선 후: 추출 → 검증 → 분기. 사람은 확인 대기열만 본다
+# 생성: python ../../../_design/excalidraw_kit.py after.yaml --out . --export
+name: after
+title: 개선 후 — 추출 → 검증 → 분기
+subtitle: LLM이 정해진 형식으로 뽑고, 코드가 다시 검증하고, 사람은 걸린 건만 본다
+layout: grid
+gapX: 70
+gapY: 80
+maxTextWidth: 200
+nodes:
+  - {id: pdf, label: "PDF 도착\n(폴더·웹훅)", role: info, col: 0, row: 0}
+  - {id: extract, label: "LLM 구조화 추출\n스키마 형식 JSON", role: accent, col: 0, row: 1}
+  - {id: validate, label: "코드 검증\n스키마 + 업무 규칙", role: primary, col: 0, row: 2}
+  - {id: gate, label: "통과?", role: warning, shape: diamond, col: 0, row: 3}
+  - {id: save, label: "자동 저장\nSQLite·CSV", role: success, col: 0, row: 4}
+  - {id: queue, label: "사람 확인 대기열\n원인 코드 + 알림", role: warning, col: 1, row: 3}
+  - {id: fix, label: "원본 보고\n수정·승인", role: warning, shape: ellipse, col: 1, row: 4}
+edges:
+  - {from: pdf, to: extract}
+  - {from: extract, to: validate}
+  - {from: validate, to: gate}
+  - {from: gate, to: save, label: 통과, role: success}
+  - {from: gate, to: queue, label: 실패·애매, role: danger}
+  - {from: queue, to: fix}
+zones:
+  - {id: human, label: 사람이 하는 일, nodes: [queue, fix], role: warning}

@@ -1,0 +1,30 @@
+# 파이프라인 구조: 공급자 어댑터는 교체 가능, 나머지 단계는 공급자를 모른다
+# 생성: python ../../../_design/excalidraw_kit.py architecture.yaml --out . --export
+name: architecture
+title: 구조 — 공급자만 바꾸면 같은 검증·분기·평가
+subtitle: 키가 없으면 모의 추출기(규칙·정규식, LLM 아님), 키가 있으면 Gemini·Claude·OpenAI
+layout: grid
+gapX: 80
+gapY: 90
+maxTextWidth: 190
+nodes:
+  - {id: docgen, label: "docgen\n가상 PDF 30건\n+ 정답 JSON", role: neutral, col: 0, row: 0}
+  - {id: pdftext, label: "pdftext\nPDF → 텍스트", role: info, col: 1, row: 0}
+  - {id: classify, label: "classify\n유형 분류\n→ 스키마 선택", role: info, col: 2, row: 0}
+  - {id: extract, label: "extract\n재시도 · 구조화 출력", role: accent, col: 3, row: 0}
+  - {id: schemas, label: "schemas\ncontract · quote\n· invoice.json", role: neutral, col: 2, row: 1}
+  - {id: mock, label: "mock\n규칙·정규식\n(기본, 키 불필요)", role: neutral, col: 3, row: 1}
+  - {id: llm, label: "gemini · anthropic\n· openai\n(키 있을 때만)", role: accent, col: 3, row: 2}
+  - {id: validate, label: "validate\nJSON Schema\n+ 업무 규칙", role: primary, col: 4, row: 0}
+  - {id: route, label: "route\n저장 / 확인 대기열\n+ 알림", role: primary, col: 4, row: 1}
+  - {id: eval, label: "eval\n정답 대비 리포트", role: primary, col: 4, row: 2}
+edges:
+  - {from: docgen, to: pdftext, label: PDF}
+  - {from: pdftext, to: classify}
+  - {from: classify, to: extract, label: 유형}
+  - {from: extract, to: validate, label: JSON}
+  - {from: validate, to: route}
+  - {from: route, to: eval, label: 결과}
+  - {from: schemas, to: classify, style: dashed}
+zones:
+  - {id: providers, label: "providers — 같은 출력 모양", nodes: [mock, llm], role: accent}
