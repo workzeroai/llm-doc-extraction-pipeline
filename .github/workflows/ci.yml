@@ -42,13 +42,7 @@ jobs:
           python -m pipeline.run --offline --simulate-provider-errors --report ci-report.md
           docpipe demo --workdir .ci-demo
           head -n 30 ci-report.md
+          cat ci-report.md >> "$GITHUB_STEP_SUMMARY"   # 평가 리포트를 작업 요약에 표시(모의 추출기 기준)
 
       - name: n8n 워크플로 최신 여부
         run: python scripts/build_n8n.py --check
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: eval-report
-          path: |
-            ci-report.md
-            .ci-demo/report.html
