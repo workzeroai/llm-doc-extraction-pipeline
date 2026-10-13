@@ -1,0 +1,26 @@
+{
+  "doc_id": "CT-01",
+  "file": "CT-01.pdf",
+  "doc_type": "contract",
+  "variant": "A",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "contract_no": "CT-2026-3370",
+    "title": "고객 데이터 정비 용역",
+    "client_name": "그린나래컨설팅",
+    "vendor_name": "나래온테크",
+    "vendor_biz_no": "108-85-50121",
+    "contract_date": "2026-06-14",
+    "start_date": "2026-06-17",
+    "end_date": "2026-09-16",
+    "supply_amount": 21800000,
+    "vat": 2180000,
+    "total_amount": 23980000,
+    "payment_terms": "착수금 50%, 중도금 없이 잔금 50% 완료 후 지급",
+    "client_signer": "이소율",
+    "vendor_signer": "임태민"
+  }
+}

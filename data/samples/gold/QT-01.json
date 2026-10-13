@@ -1,0 +1,36 @@
+{
+  "doc_id": "QT-01",
+  "file": "QT-01.pdf",
+  "doc_type": "quote",
+  "variant": "A",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "quote_no": "Q260426-91",
+    "issue_date": "2026-04-26",
+    "valid_until": "2026-06-25",
+    "supplier_name": "늘해랑에듀 주식회사",
+    "supplier_biz_no": "124-88-17450",
+    "client_name": "한빛누리랩스 주식회사",
+    "manager": "김다인",
+    "items": [
+      {
+        "name": "모바일 앱 QA 테스트",
+        "qty": 8,
+        "unit_price": 330000,
+        "amount": 2640000
+      },
+      {
+        "name": "CRM 메시지 템플릿 제작",
+        "qty": 9,
+        "unit_price": 80000,
+        "amount": 720000
+      }
+    ],
+    "subtotal": 3360000,
+    "vat": 336000,
+    "total": 3696000
+  }
+}

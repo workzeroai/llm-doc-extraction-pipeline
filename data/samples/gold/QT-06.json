@@ -1,0 +1,50 @@
+{
+  "doc_id": "QT-06",
+  "file": "QT-06.pdf",
+  "doc_type": "quote",
+  "variant": "B",
+  "difficulty": [
+    "날짜 표기 혼용"
+  ],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "quote_no": "Q260821-62",
+    "issue_date": "2026-08-21",
+    "valid_until": "2026-09-04",
+    "supplier_name": "푸른모래미디어 주식회사",
+    "supplier_biz_no": "839-82-43330",
+    "client_name": "그린나래시스템 주식회사",
+    "manager": "최소율",
+    "items": [
+      {
+        "name": "클라우드 서버 운영 대행",
+        "qty": 5,
+        "unit_price": 418000,
+        "amount": 2090000
+      },
+      {
+        "name": "상세 페이지 촬영·편집",
+        "qty": 10,
+        "unit_price": 585000,
+        "amount": 5850000
+      },
+      {
+        "name": "사내 교육 워크숍",
+        "qty": 7,
+        "unit_price": 1200000,
+        "amount": 8400000
+      },
+      {
+        "name": "업무 자동화 컨설팅",
+        "qty": 10,
+        "unit_price": 990000,
+        "amount": 9900000
+      }
+    ],
+    "subtotal": 26240000,
+    "vat": 2624000,
+    "total": 28864000
+  }
+}

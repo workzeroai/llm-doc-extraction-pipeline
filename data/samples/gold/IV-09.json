@@ -1,0 +1,41 @@
+{
+  "doc_id": "IV-09",
+  "file": "IV-09.pdf",
+  "doc_type": "invoice",
+  "variant": "A",
+  "difficulty": [
+    "합계 불일치"
+  ],
+  "render": "pdf",
+  "must_review": true,
+  "expected_reasons": [
+    "RULE_VIOLATION"
+  ],
+  "fields": {
+    "invoice_no": "INV-202608-6153",
+    "issue_date": "2026-08-26",
+    "due_date": "2026-09-15",
+    "supplier_name": "별하솔데이터웍스",
+    "supplier_biz_no": "358-85-32562",
+    "buyer_name": "(주)늘해랑미디어",
+    "buyer_biz_no": "117-84-10048",
+    "items": [
+      {
+        "name": "업무 자동화 컨설팅",
+        "qty": 2,
+        "unit_price": 990000,
+        "amount": 2080000
+      },
+      {
+        "name": "CRM 메시지 템플릿 제작",
+        "qty": 9,
+        "unit_price": 80000,
+        "amount": 720000
+      }
+    ],
+    "subtotal": 2800000,
+    "vat": 280000,
+    "total": 3080000,
+    "memo": "세금계산서는 발행일 기준으로 발행됩니다."
+  }
+}

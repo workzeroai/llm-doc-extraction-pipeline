@@ -1,0 +1,291 @@
+{
+  "seed": 42,
+  "total": 30,
+  "by_type": {
+    "contract": 10,
+    "quote": 10,
+    "invoice": 10
+  },
+  "hard_cases": 15,
+  "hard_ratio": 0.5,
+  "must_review": [
+    "CT-08",
+    "CT-09",
+    "CT-10",
+    "QT-09",
+    "IV-08",
+    "IV-09"
+  ],
+  "docs": [
+    {
+      "doc_id": "CT-01",
+      "type": "contract",
+      "label": "계약서",
+      "variant": "A",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "CT-02",
+      "type": "contract",
+      "label": "계약서",
+      "variant": "B",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "CT-03",
+      "type": "contract",
+      "label": "계약서",
+      "variant": "A",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "CT-04",
+      "type": "contract",
+      "label": "계약서",
+      "variant": "B",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "CT-05",
+      "type": "contract",
+      "label": "계약서",
+      "variant": "A",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "CT-06",
+      "type": "contract",
+      "label": "계약서",
+      "variant": "B",
+      "difficulty": [
+        "날짜 표기 혼용"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "CT-07",
+      "type": "contract",
+      "label": "계약서",
+      "variant": "A",
+      "difficulty": [
+        "표 안 금액·한글 금액"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "CT-08",
+      "type": "contract",
+      "label": "계약서",
+      "variant": "B",
+      "difficulty": [
+        "필드 누락"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "CT-09",
+      "type": "contract",
+      "label": "계약서",
+      "variant": "A",
+      "difficulty": [
+        "합계 불일치"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "CT-10",
+      "type": "contract",
+      "label": "계약서",
+      "variant": "B",
+      "difficulty": [
+        "저품질 스캔"
+      ],
+      "render": "scan_image"
+    },
+    {
+      "doc_id": "QT-01",
+      "type": "quote",
+      "label": "견적서",
+      "variant": "A",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "QT-02",
+      "type": "quote",
+      "label": "견적서",
+      "variant": "B",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "QT-03",
+      "type": "quote",
+      "label": "견적서",
+      "variant": "A",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "QT-04",
+      "type": "quote",
+      "label": "견적서",
+      "variant": "B",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "QT-05",
+      "type": "quote",
+      "label": "견적서",
+      "variant": "A",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "QT-06",
+      "type": "quote",
+      "label": "견적서",
+      "variant": "B",
+      "difficulty": [
+        "날짜 표기 혼용"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "QT-07",
+      "type": "quote",
+      "label": "견적서",
+      "variant": "A",
+      "difficulty": [
+        "표 안 금액·한글 금액"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "QT-08",
+      "type": "quote",
+      "label": "견적서",
+      "variant": "B",
+      "difficulty": [
+        "필드 누락"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "QT-09",
+      "type": "quote",
+      "label": "견적서",
+      "variant": "A",
+      "difficulty": [
+        "합계 불일치"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "QT-10",
+      "type": "quote",
+      "label": "견적서",
+      "variant": "B",
+      "difficulty": [
+        "저품질 스캔"
+      ],
+      "render": "scan_ocr"
+    },
+    {
+      "doc_id": "IV-01",
+      "type": "invoice",
+      "label": "청구서",
+      "variant": "A",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "IV-02",
+      "type": "invoice",
+      "label": "청구서",
+      "variant": "B",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "IV-03",
+      "type": "invoice",
+      "label": "청구서",
+      "variant": "A",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "IV-04",
+      "type": "invoice",
+      "label": "청구서",
+      "variant": "B",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "IV-05",
+      "type": "invoice",
+      "label": "청구서",
+      "variant": "A",
+      "difficulty": [],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "IV-06",
+      "type": "invoice",
+      "label": "청구서",
+      "variant": "B",
+      "difficulty": [
+        "날짜 표기 혼용"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "IV-07",
+      "type": "invoice",
+      "label": "청구서",
+      "variant": "A",
+      "difficulty": [
+        "표 안 금액·한글 금액"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "IV-08",
+      "type": "invoice",
+      "label": "청구서",
+      "variant": "B",
+      "difficulty": [
+        "필드 누락"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "IV-09",
+      "type": "invoice",
+      "label": "청구서",
+      "variant": "A",
+      "difficulty": [
+        "합계 불일치"
+      ],
+      "render": "pdf"
+    },
+    {
+      "doc_id": "IV-10",
+      "type": "invoice",
+      "label": "청구서",
+      "variant": "B",
+      "difficulty": [
+        "저품질 스캔"
+      ],
+      "render": "scan_ocr"
+    }
+  ]
+}

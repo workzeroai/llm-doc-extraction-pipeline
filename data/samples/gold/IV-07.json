@@ -1,0 +1,51 @@
+{
+  "doc_id": "IV-07",
+  "file": "IV-07.pdf",
+  "doc_type": "invoice",
+  "variant": "A",
+  "difficulty": [
+    "표 안 금액·한글 금액"
+  ],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "invoice_no": "INV-202605-8135",
+    "issue_date": "2026-05-08",
+    "due_date": "2026-05-28",
+    "supplier_name": "새벽별에듀 주식회사",
+    "supplier_biz_no": "852-88-60348",
+    "buyer_name": "나래온컨설팅 주식회사",
+    "buyer_biz_no": "718-86-60985",
+    "items": [
+      {
+        "name": "영상 자막 작업",
+        "qty": 6,
+        "unit_price": 44000,
+        "amount": 264000
+      },
+      {
+        "name": "웹사이트 유지보수",
+        "qty": 12,
+        "unit_price": 450000,
+        "amount": 5400000
+      },
+      {
+        "name": "업무 자동화 컨설팅",
+        "qty": 4,
+        "unit_price": 990000,
+        "amount": 3960000
+      },
+      {
+        "name": "상세 페이지 촬영·편집",
+        "qty": 7,
+        "unit_price": 585000,
+        "amount": 4095000
+      }
+    ],
+    "subtotal": 13719000,
+    "vat": 1371900,
+    "total": 15090900,
+    "memo": "문의는 담당 부서로 연락 바랍니다."
+  }
+}

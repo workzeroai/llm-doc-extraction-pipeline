@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/workzeroai/llm-doc-extraction-pipeline/schemas/contract.json",
+  "title": "계약서",
+  "description": "용역 계약서에서 뽑는 값. 문서에 없는 값은 null(추측 금지).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_no",
+    "title",
+    "client_name",
+    "vendor_name",
+    "vendor_biz_no",
+    "contract_date",
+    "start_date",
+    "end_date",
+    "supply_amount",
+    "vat",
+    "total_amount",
+    "payment_terms",
+    "client_signer",
+    "vendor_signer"
+  ],
+  "properties": {
+    "contract_no": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "title": "계약번호"
+    },
+    "title": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "title": "계약명"
+    },
+    "client_name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "title": "발주자(갑)"
+    },
+    "vendor_name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "title": "수급자(을)"
+    },
+    "vendor_biz_no": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\d{3}-\\d{2}-\\d{5}$",
+      "title": "수급자 사업자등록번호",
+      "description": "000-00-00000"
+    },
+    "contract_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date",
+      "title": "계약일",
+      "description": "YYYY-MM-DD"
+    },
+    "start_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date",
+      "title": "계약 시작일",
+      "description": "YYYY-MM-DD"
+    },
+    "end_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date",
+      "title": "계약 종료일",
+      "description": "YYYY-MM-DD"
+    },
+    "supply_amount": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "title": "공급가액",
+      "description": "원 단위 정수"
+    },
+    "vat": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "title": "부가가치세",
+      "description": "원 단위 정수"
+    },
+    "total_amount": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "title": "총 계약금액",
+      "description": "원 단위 정수"
+    },
+    "payment_terms": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "title": "대금 지급 조건"
+    },
+    "client_signer": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "title": "갑 대표자"
+    },
+    "vendor_signer": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "title": "을 대표자"
+    }
+  },
+  "x-required-values": [
+    "contract_no",
+    "client_name",
+    "vendor_name",
+    "contract_date",
+    "start_date",
+    "end_date",
+    "supply_amount",
+    "vat",
+    "total_amount"
+  ]
+}

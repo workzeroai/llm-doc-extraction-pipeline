@@ -1,0 +1,49 @@
+{
+  "doc_id": "IV-04",
+  "file": "IV-04.pdf",
+  "doc_type": "invoice",
+  "variant": "B",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "invoice_no": "INV-202605-5845",
+    "issue_date": "2026-05-23",
+    "due_date": "2026-06-22",
+    "supplier_name": "주식회사 늘해랑컨설팅",
+    "supplier_biz_no": "316-82-61494",
+    "buyer_name": "도래울미디어 주식회사",
+    "buyer_biz_no": "405-82-75885",
+    "items": [
+      {
+        "name": "보안 점검 리포트",
+        "qty": 5,
+        "unit_price": 1980000,
+        "amount": 9900000
+      },
+      {
+        "name": "영상 자막 작업",
+        "qty": 8,
+        "unit_price": 44000,
+        "amount": 352000
+      },
+      {
+        "name": "사내 교육 워크숍",
+        "qty": 7,
+        "unit_price": 1200000,
+        "amount": 8400000
+      },
+      {
+        "name": "상세 페이지 촬영·편집",
+        "qty": 11,
+        "unit_price": 812000,
+        "amount": 8932000
+      }
+    ],
+    "subtotal": 27584000,
+    "vat": 2758400,
+    "total": 30342400,
+    "memo": "세금계산서는 발행일 기준으로 발행됩니다."
+  }
+}

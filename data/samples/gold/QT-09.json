@@ -1,0 +1,46 @@
+{
+  "doc_id": "QT-09",
+  "file": "QT-09.pdf",
+  "doc_type": "quote",
+  "variant": "A",
+  "difficulty": [
+    "합계 불일치"
+  ],
+  "render": "pdf",
+  "must_review": true,
+  "expected_reasons": [
+    "RULE_VIOLATION"
+  ],
+  "fields": {
+    "quote_no": "Q260513-53",
+    "issue_date": "2026-05-13",
+    "valid_until": "2026-06-12",
+    "supplier_name": "주식회사 가람윤슬에듀",
+    "supplier_biz_no": "826-82-60143",
+    "client_name": "새벽별커머스 주식회사",
+    "manager": "윤채원",
+    "items": [
+      {
+        "name": "상세 페이지 촬영·편집",
+        "qty": 2,
+        "unit_price": 812000,
+        "amount": 1624000
+      },
+      {
+        "name": "보안 점검 리포트",
+        "qty": 7,
+        "unit_price": 1760000,
+        "amount": 12320000
+      },
+      {
+        "name": "CRM 메시지 템플릿 제작",
+        "qty": 8,
+        "unit_price": 88000,
+        "amount": 704000
+      }
+    ],
+    "subtotal": 14698000,
+    "vat": 1469800,
+    "total": 16167800
+  }
+}

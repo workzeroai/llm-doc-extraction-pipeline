@@ -1,0 +1,37 @@
+{
+  "doc_id": "IV-02",
+  "file": "IV-02.pdf",
+  "doc_type": "invoice",
+  "variant": "B",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "invoice_no": "INV-202607-1952",
+    "issue_date": "2026-07-23",
+    "due_date": "2026-08-12",
+    "supplier_name": "(주)나래온시스템",
+    "supplier_biz_no": "495-84-72003",
+    "buyer_name": "(주)미리내빛테크",
+    "buyer_biz_no": "345-83-51569",
+    "items": [
+      {
+        "name": "랜딩 페이지 디자인",
+        "qty": 7,
+        "unit_price": 1080000,
+        "amount": 7560000
+      },
+      {
+        "name": "보안 점검 리포트",
+        "qty": 8,
+        "unit_price": 2420000,
+        "amount": 19360000
+      }
+    ],
+    "subtotal": 26920000,
+    "vat": 2692000,
+    "total": 29612000,
+    "memo": "문의는 담당 부서로 연락 바랍니다."
+  }
+}

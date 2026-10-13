@@ -1,0 +1,42 @@
+{
+  "doc_id": "QT-02",
+  "file": "QT-02.pdf",
+  "doc_type": "quote",
+  "variant": "B",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "quote_no": "Q260702-50",
+    "issue_date": "2026-07-02",
+    "valid_until": "2026-08-01",
+    "supplier_name": "한빛누리랩스",
+    "supplier_biz_no": "764-82-18672",
+    "client_name": "(주)솔마루에듀",
+    "manager": "장건우",
+    "items": [
+      {
+        "name": "상세 페이지 촬영·편집",
+        "qty": 7,
+        "unit_price": 715000,
+        "amount": 5005000
+      },
+      {
+        "name": "보안 점검 리포트",
+        "qty": 3,
+        "unit_price": 2420000,
+        "amount": 7260000
+      },
+      {
+        "name": "랜딩 페이지 디자인",
+        "qty": 2,
+        "unit_price": 1320000,
+        "amount": 2640000
+      }
+    ],
+    "subtotal": 14905000,
+    "vat": 1490500,
+    "total": 16395500
+  }
+}

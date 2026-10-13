@@ -1,0 +1,48 @@
+{
+  "doc_id": "QT-03",
+  "file": "QT-03.pdf",
+  "doc_type": "quote",
+  "variant": "A",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "quote_no": "Q260804-90",
+    "issue_date": "2026-08-04",
+    "valid_until": "2026-09-03",
+    "supplier_name": "온새미로데이터웍스 주식회사",
+    "supplier_biz_no": "457-82-71008",
+    "client_name": "주식회사 여울다린데이터웍스",
+    "manager": "한지안",
+    "items": [
+      {
+        "name": "모바일 앱 QA 테스트",
+        "qty": 7,
+        "unit_price": 375000,
+        "amount": 2625000
+      },
+      {
+        "name": "상세 페이지 촬영·편집",
+        "qty": 7,
+        "unit_price": 715000,
+        "amount": 5005000
+      },
+      {
+        "name": "데이터 라벨링(이미지)",
+        "qty": 3000,
+        "unit_price": 96,
+        "amount": 288000
+      },
+      {
+        "name": "업무 자동화 컨설팅",
+        "qty": 12,
+        "unit_price": 1125000,
+        "amount": 13500000
+      }
+    ],
+    "subtotal": 21418000,
+    "vat": 2141800,
+    "total": 23559800
+  }
+}

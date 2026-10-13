@@ -1,0 +1,50 @@
+{
+  "doc_id": "QT-08",
+  "file": "QT-08.pdf",
+  "doc_type": "quote",
+  "variant": "B",
+  "difficulty": [
+    "필드 누락"
+  ],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "quote_no": "Q260828-97",
+    "issue_date": "2026-08-28",
+    "valid_until": null,
+    "supplier_name": "솔마루컨설팅 주식회사",
+    "supplier_biz_no": "330-87-33946",
+    "client_name": "미리내빛테크",
+    "manager": null,
+    "items": [
+      {
+        "name": "보안 점검 리포트",
+        "qty": 11,
+        "unit_price": 2200000,
+        "amount": 24200000
+      },
+      {
+        "name": "랜딩 페이지 디자인",
+        "qty": 12,
+        "unit_price": 960000,
+        "amount": 11520000
+      },
+      {
+        "name": "상세 페이지 촬영·편집",
+        "qty": 10,
+        "unit_price": 715000,
+        "amount": 7150000
+      },
+      {
+        "name": "데이터 라벨링(이미지)",
+        "qty": 500,
+        "unit_price": 108,
+        "amount": 54000
+      }
+    ],
+    "subtotal": 42924000,
+    "vat": 4292400,
+    "total": 47216400
+  }
+}

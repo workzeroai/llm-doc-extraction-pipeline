@@ -1,0 +1,28 @@
+{
+  "doc_id": "CT-07",
+  "file": "CT-07.pdf",
+  "doc_type": "contract",
+  "variant": "A",
+  "difficulty": [
+    "표 안 금액·한글 금액"
+  ],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "contract_no": "CT-2026-3096",
+    "title": "고객 데이터 정비 용역",
+    "client_name": "주식회사 나래온솔루션즈",
+    "vendor_name": "늘해랑디자인랩 주식회사",
+    "vendor_biz_no": "195-82-61451",
+    "contract_date": "2026-03-31",
+    "start_date": "2026-04-05",
+    "end_date": "2026-09-04",
+    "supply_amount": 37700000,
+    "vat": 3770000,
+    "total_amount": 41470000,
+    "payment_terms": "착수금 50%, 중도금 없이 잔금 50% 완료 후 지급",
+    "client_signer": "정지안",
+    "vendor_signer": "임가온"
+  }
+}

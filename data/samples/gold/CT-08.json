@@ -1,0 +1,30 @@
+{
+  "doc_id": "CT-08",
+  "file": "CT-08.pdf",
+  "doc_type": "contract",
+  "variant": "B",
+  "difficulty": [
+    "필드 누락"
+  ],
+  "render": "pdf",
+  "must_review": true,
+  "expected_reasons": [
+    "RULE_VIOLATION"
+  ],
+  "fields": {
+    "contract_no": "CT-2026-3197",
+    "title": "콘텐츠 제작 용역",
+    "client_name": "주식회사 새벽별솔루션즈",
+    "vendor_name": "그린나래디자인랩",
+    "vendor_biz_no": "821-87-45104",
+    "contract_date": "2026-09-08",
+    "start_date": "2026-09-20",
+    "end_date": null,
+    "supply_amount": 29000000,
+    "vat": 2900000,
+    "total_amount": 31900000,
+    "payment_terms": "검수 완료 후 30일 이내 일시 지급",
+    "client_signer": "강도윤",
+    "vendor_signer": "장지우"
+  }
+}

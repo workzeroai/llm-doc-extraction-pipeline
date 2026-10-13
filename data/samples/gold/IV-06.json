@@ -1,0 +1,51 @@
+{
+  "doc_id": "IV-06",
+  "file": "IV-06.pdf",
+  "doc_type": "invoice",
+  "variant": "B",
+  "difficulty": [
+    "날짜 표기 혼용"
+  ],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "invoice_no": "INV-202603-5023",
+    "issue_date": "2026-03-08",
+    "due_date": "2026-04-07",
+    "supplier_name": "(주)솔마루컨설팅",
+    "supplier_biz_no": "188-82-68062",
+    "buyer_name": "가람윤슬솔루션즈",
+    "buyer_biz_no": "288-84-60869",
+    "items": [
+      {
+        "name": "클라우드 서버 운영 대행",
+        "qty": 6,
+        "unit_price": 475000,
+        "amount": 2850000
+      },
+      {
+        "name": "CRM 메시지 템플릿 제작",
+        "qty": 10,
+        "unit_price": 72000,
+        "amount": 720000
+      },
+      {
+        "name": "랜딩 페이지 디자인",
+        "qty": 11,
+        "unit_price": 1200000,
+        "amount": 13200000
+      },
+      {
+        "name": "웹사이트 유지보수",
+        "qty": 6,
+        "unit_price": 450000,
+        "amount": 2700000
+      }
+    ],
+    "subtotal": 19470000,
+    "vat": 1947000,
+    "total": 21417000,
+    "memo": "입금 계좌는 별도 안내드립니다."
+  }
+}

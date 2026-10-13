@@ -1,0 +1,30 @@
+{
+  "doc_id": "CT-10",
+  "file": "CT-10.pdf",
+  "doc_type": "contract",
+  "variant": "B",
+  "difficulty": [
+    "저품질 스캔"
+  ],
+  "render": "scan_image",
+  "must_review": true,
+  "expected_reasons": [
+    "TEXT_EXTRACTION_FAILED"
+  ],
+  "fields": {
+    "contract_no": "CT-2026-7439",
+    "title": "사내 교육 프로그램 운영",
+    "client_name": "그린나래랩스 주식회사",
+    "vendor_name": "(주)별하솔솔루션즈",
+    "vendor_biz_no": "861-87-14652",
+    "contract_date": "2026-04-01",
+    "start_date": "2026-04-12",
+    "end_date": "2026-06-11",
+    "supply_amount": 41400000,
+    "vat": 4140000,
+    "total_amount": 45540000,
+    "payment_terms": "계약 체결 후 선금 30%, 완료 후 잔금 70% 지급",
+    "client_signer": "오은재",
+    "vendor_signer": "강유진"
+  }
+}

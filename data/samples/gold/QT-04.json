@@ -1,0 +1,36 @@
+{
+  "doc_id": "QT-04",
+  "file": "QT-04.pdf",
+  "doc_type": "quote",
+  "variant": "B",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "quote_no": "Q260905-89",
+    "issue_date": "2026-09-05",
+    "valid_until": "2026-10-05",
+    "supplier_name": "(주)한빛누리솔루션즈",
+    "supplier_biz_no": "287-88-56604",
+    "client_name": "라온숲테크",
+    "manager": "권은재",
+    "items": [
+      {
+        "name": "데이터 라벨링(이미지)",
+        "qty": 3000,
+        "unit_price": 96,
+        "amount": 288000
+      },
+      {
+        "name": "보안 점검 리포트",
+        "qty": 12,
+        "unit_price": 2200000,
+        "amount": 26400000
+      }
+    ],
+    "subtotal": 26688000,
+    "vat": 2668800,
+    "total": 29356800
+  }
+}

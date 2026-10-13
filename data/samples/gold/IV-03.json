@@ -1,0 +1,49 @@
+{
+  "doc_id": "IV-03",
+  "file": "IV-03.pdf",
+  "doc_type": "invoice",
+  "variant": "A",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "invoice_no": "INV-202608-8916",
+    "issue_date": "2026-08-02",
+    "due_date": "2026-09-01",
+    "supplier_name": "(주)도담결컨설팅",
+    "supplier_biz_no": "856-86-91209",
+    "buyer_name": "주식회사 다온새솔랩스",
+    "buyer_biz_no": "870-84-40852",
+    "items": [
+      {
+        "name": "랜딩 페이지 디자인",
+        "qty": 4,
+        "unit_price": 960000,
+        "amount": 3840000
+      },
+      {
+        "name": "데이터 라벨링(이미지)",
+        "qty": 1200,
+        "unit_price": 150,
+        "amount": 180000
+      },
+      {
+        "name": "웹사이트 유지보수",
+        "qty": 5,
+        "unit_price": 495000,
+        "amount": 2475000
+      },
+      {
+        "name": "보안 점검 리포트",
+        "qty": 8,
+        "unit_price": 2420000,
+        "amount": 19360000
+      }
+    ],
+    "subtotal": 25855000,
+    "vat": 2585500,
+    "total": 28440500,
+    "memo": "입금 계좌는 별도 안내드립니다."
+  }
+}

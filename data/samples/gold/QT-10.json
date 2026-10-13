@@ -1,0 +1,44 @@
+{
+  "doc_id": "QT-10",
+  "file": "QT-10.pdf",
+  "doc_type": "quote",
+  "variant": "B",
+  "difficulty": [
+    "저품질 스캔"
+  ],
+  "render": "scan_ocr",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "quote_no": "Q260106-21",
+    "issue_date": "2026-01-06",
+    "valid_until": "2026-02-05",
+    "supplier_name": "주식회사 새벽별디자인랩",
+    "supplier_biz_no": "597-85-22956",
+    "client_name": "푸른모래시스템",
+    "manager": "강현우",
+    "items": [
+      {
+        "name": "영상 자막 작업",
+        "qty": 6,
+        "unit_price": 28000,
+        "amount": 168000
+      },
+      {
+        "name": "보안 점검 리포트",
+        "qty": 5,
+        "unit_price": 1980000,
+        "amount": 9900000
+      },
+      {
+        "name": "데이터 라벨링(이미지)",
+        "qty": 1200,
+        "unit_price": 96,
+        "amount": 115200
+      }
+    ],
+    "subtotal": 10183200,
+    "vat": 1018320,
+    "total": 11201520
+  }
+}

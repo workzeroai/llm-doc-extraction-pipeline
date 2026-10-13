@@ -1,0 +1,30 @@
+{
+  "doc_id": "CT-09",
+  "file": "CT-09.pdf",
+  "doc_type": "contract",
+  "variant": "A",
+  "difficulty": [
+    "합계 불일치"
+  ],
+  "render": "pdf",
+  "must_review": true,
+  "expected_reasons": [
+    "RULE_VIOLATION"
+  ],
+  "fields": {
+    "contract_no": "CT-2026-5198",
+    "title": "쇼핑몰 운영 대행",
+    "client_name": "(주)가람윤슬컨설팅",
+    "vendor_name": "주식회사 새벽별미디어",
+    "vendor_biz_no": "122-83-31859",
+    "contract_date": "2026-06-13",
+    "start_date": "2026-06-26",
+    "end_date": "2027-02-25",
+    "supply_amount": 36200000,
+    "vat": 3620000,
+    "total_amount": 39920000,
+    "payment_terms": "검수 완료 후 30일 이내 일시 지급",
+    "client_signer": "서유진",
+    "vendor_signer": "정가온"
+  }
+}

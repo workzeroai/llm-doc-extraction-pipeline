@@ -1,0 +1,43 @@
+{
+  "doc_id": "IV-01",
+  "file": "IV-01.pdf",
+  "doc_type": "invoice",
+  "variant": "A",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "invoice_no": "INV-202601-2203",
+    "issue_date": "2026-01-24",
+    "due_date": "2026-02-13",
+    "supplier_name": "(주)별하솔디자인랩",
+    "supplier_biz_no": "892-81-58443",
+    "buyer_name": "바로미디자인랩",
+    "buyer_biz_no": "188-81-73665",
+    "items": [
+      {
+        "name": "상세 페이지 촬영·편집",
+        "qty": 6,
+        "unit_price": 585000,
+        "amount": 3510000
+      },
+      {
+        "name": "랜딩 페이지 디자인",
+        "qty": 6,
+        "unit_price": 1500000,
+        "amount": 9000000
+      },
+      {
+        "name": "모바일 앱 QA 테스트",
+        "qty": 3,
+        "unit_price": 270000,
+        "amount": 810000
+      }
+    ],
+    "subtotal": 13320000,
+    "vat": 1332000,
+    "total": 14652000,
+    "memo": "세금계산서는 발행일 기준으로 발행됩니다."
+  }
+}

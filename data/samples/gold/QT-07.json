@@ -1,0 +1,44 @@
+{
+  "doc_id": "QT-07",
+  "file": "QT-07.pdf",
+  "doc_type": "quote",
+  "variant": "A",
+  "difficulty": [
+    "표 안 금액·한글 금액"
+  ],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "quote_no": "Q260524-35",
+    "issue_date": "2026-05-24",
+    "valid_until": "2026-06-23",
+    "supplier_name": "(주)그린나래커머스",
+    "supplier_biz_no": "718-82-10250",
+    "client_name": "다온새솔데이터웍스",
+    "manager": "강건우",
+    "items": [
+      {
+        "name": "고객 문의 자동 분류 시스템 구축 및 운영 담당자 교육(2회 포함)",
+        "qty": 4,
+        "unit_price": 375000,
+        "amount": 1500000
+      },
+      {
+        "name": "브랜드 리뉴얼에 따른 온라인 판매처 상세 페이지 전면 개편 디자인",
+        "qty": 1,
+        "unit_price": 1200000,
+        "amount": 1200000
+      },
+      {
+        "name": "월간 성과 리포트 자동화 대시보드 구축과 데이터 연결 설정 작업",
+        "qty": 11,
+        "unit_price": 1080000,
+        "amount": 11880000
+      }
+    ],
+    "subtotal": 14580000,
+    "vat": 1458000,
+    "total": 16038000
+  }
+}

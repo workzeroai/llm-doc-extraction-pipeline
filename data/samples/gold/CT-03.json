@@ -1,0 +1,26 @@
+{
+  "doc_id": "CT-03",
+  "file": "CT-03.pdf",
+  "doc_type": "contract",
+  "variant": "A",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "contract_no": "CT-2026-8112",
+    "title": "업무 자동화 구축 용역",
+    "client_name": "(주)바로미커머스",
+    "vendor_name": "별하솔커머스 주식회사",
+    "vendor_biz_no": "469-84-23634",
+    "contract_date": "2026-02-13",
+    "start_date": "2026-02-23",
+    "end_date": "2026-10-22",
+    "supply_amount": 6300000,
+    "vat": 630000,
+    "total_amount": 6930000,
+    "payment_terms": "매월 말일 기준 월 단위 정산 후 익월 10일 지급",
+    "client_signer": "윤유진",
+    "vendor_signer": "권서준"
+  }
+}

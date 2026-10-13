@@ -1,0 +1,28 @@
+{
+  "doc_id": "CT-06",
+  "file": "CT-06.pdf",
+  "doc_type": "contract",
+  "variant": "B",
+  "difficulty": [
+    "날짜 표기 혼용"
+  ],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "contract_no": "CT-2026-2075",
+    "title": "온라인 광고 운영 대행",
+    "client_name": "솔마루에듀",
+    "vendor_name": "여울다린시스템",
+    "vendor_biz_no": "452-83-77829",
+    "contract_date": "2026-09-19",
+    "start_date": "2026-09-25",
+    "end_date": "2027-02-24",
+    "supply_amount": 38300000,
+    "vat": 3830000,
+    "total_amount": 42130000,
+    "payment_terms": "매월 말일 기준 월 단위 정산 후 익월 10일 지급",
+    "client_signer": "이태민",
+    "vendor_signer": "윤도윤"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "doc_id": "QT-05",
+  "file": "QT-05.pdf",
+  "doc_type": "quote",
+  "variant": "A",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "quote_no": "Q260811-40",
+    "issue_date": "2026-08-11",
+    "valid_until": "2026-09-10",
+    "supplier_name": "(주)도래울에듀",
+    "supplier_biz_no": "861-83-46699",
+    "client_name": "도래울랩스 주식회사",
+    "manager": "임은재",
+    "items": [
+      {
+        "name": "검색광고 운영 대행",
+        "qty": 5,
+        "unit_price": 770000,
+        "amount": 3850000
+      },
+      {
+        "name": "클라우드 서버 운영 대행",
+        "qty": 12,
+        "unit_price": 380000,
+        "amount": 4560000
+      }
+    ],
+    "subtotal": 8410000,
+    "vat": 841000,
+    "total": 9251000
+  }
+}

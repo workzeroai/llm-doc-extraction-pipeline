@@ -1,0 +1,43 @@
+{
+  "doc_id": "IV-05",
+  "file": "IV-05.pdf",
+  "doc_type": "invoice",
+  "variant": "A",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "invoice_no": "INV-202609-2304",
+    "issue_date": "2026-09-16",
+    "due_date": "2026-09-30",
+    "supplier_name": "주식회사 솔마루랩스",
+    "supplier_biz_no": "421-82-71955",
+    "buyer_name": "늘해랑데이터웍스 주식회사",
+    "buyer_biz_no": "171-84-96453",
+    "items": [
+      {
+        "name": "랜딩 페이지 디자인",
+        "qty": 12,
+        "unit_price": 1320000,
+        "amount": 15840000
+      },
+      {
+        "name": "데이터 라벨링(이미지)",
+        "qty": 1200,
+        "unit_price": 150,
+        "amount": 180000
+      },
+      {
+        "name": "상세 페이지 촬영·편집",
+        "qty": 10,
+        "unit_price": 812000,
+        "amount": 8120000
+      }
+    ],
+    "subtotal": 24140000,
+    "vat": 2414000,
+    "total": 26554000,
+    "memo": "세금계산서는 발행일 기준으로 발행됩니다."
+  }
+}

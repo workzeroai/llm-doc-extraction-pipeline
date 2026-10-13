@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-doc-extraction-pipeline"
+version = "0.1.0"
+description = "PDF 문서를 정해진 스키마로 추출 → 검증 → 저장하고, 실패·애매한 건은 사람 확인 대기열로 넘기는 파이프라인 (키 없이 모의 추출기로 데모)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "workzeroai" }]
+keywords = ["llm", "document-extraction", "json-schema", "pdf", "human-in-the-loop", "n8n", "evaluation"]
+classifiers = [
+  "Programming Language :: Python :: 3.11",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+  "pdfplumber>=0.11",
+  "reportlab>=4.0",
+  "pillow>=10",
+  "jsonschema>=4.20",
+  "typer>=0.12",
+  "rich>=13",
+]
+
+[project.optional-dependencies]
+# 실제 LLM 공급자(키가 있을 때만 호출)
+llm = ["anthropic>=1.0", "google-genai>=1.30", "openai>=1.60"]
+dev = ["pytest>=8", "pytest-cov>=5", "ruff>=0.6"]
+# README 이미지 만들기(개발용)
+assets = ["playwright>=1.40", "pypdfium2>=4", "pyyaml>=6"]
+
+[project.scripts]
+docpipe = "pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["docgen*", "schemas*", "pipeline*", "eval*"]
+
+[tool.setuptools.package-data]
+schemas = ["*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=pipeline --cov=docgen --cov=eval --cov=schemas --cov-report=term-missing:skip-covered --cov-fail-under=80"
+
+[tool.coverage.run]
+branch = true
+source = ["pipeline", "docgen", "eval", "schemas"]
+
+[tool.ruff]
+line-length = 140
+target-version = "py311"
+extend-exclude = [".venv", "data", ".docpipe"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]  # 한국어 문장 안의 전각·유사 문자 허용
+
+[tool.ruff.lint.per-file-ignores]
+"eval/evaluate.py" = ["E501"]  # 리포트 문장·HTML 템플릿
+"pipeline/cli.py" = ["B008"]   # typer.Option 기본값 관용 패턴

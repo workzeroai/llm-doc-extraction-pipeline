@@ -1,0 +1,45 @@
+{
+  "doc_id": "IV-10",
+  "file": "IV-10.pdf",
+  "doc_type": "invoice",
+  "variant": "B",
+  "difficulty": [
+    "저품질 스캔"
+  ],
+  "render": "scan_ocr",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "invoice_no": "INV-202608-8487",
+    "issue_date": "2026-08-18",
+    "due_date": "2026-09-01",
+    "supplier_name": "(주)한빛누리랩스",
+    "supplier_biz_no": "686-86-93739",
+    "buyer_name": "하람누리테크 주식회사",
+    "buyer_biz_no": "361-84-31408",
+    "items": [
+      {
+        "name": "검색광고 운영 대행",
+        "qty": 4,
+        "unit_price": 875000,
+        "amount": 3500000
+      },
+      {
+        "name": "사내 교육 워크숍",
+        "qty": 8,
+        "unit_price": 1875000,
+        "amount": 15000000
+      },
+      {
+        "name": "랜딩 페이지 디자인",
+        "qty": 8,
+        "unit_price": 1500000,
+        "amount": 12000000
+      }
+    ],
+    "subtotal": 30500000,
+    "vat": 3050000,
+    "total": 33550000,
+    "memo": "세금계산서는 발행일 기준으로 발행됩니다."
+  }
+}

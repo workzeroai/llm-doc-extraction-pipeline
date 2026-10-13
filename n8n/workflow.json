@@ -1,0 +1,531 @@
+{
+  "name": "문서 추출 파이프라인 — 추출 · 검증 · 사람 확인 대기열",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 문서 추출 파이프라인 (n8n 판)\nPDF → 텍스트 → 유형 분류 → **LLM 구조화 추출** → **스키마·업무 규칙 검증** → 저장 / **사람 확인 대기열** + 알림\n\n가져온 뒤 할 일: ① Gemini 모델 노드에 자격증명 연결 ② Google Sheets 두 노드에 자격증명·시트 ID ③ 알림 노드의 웹훅 URL\n\nPython 기준 구현과 같은 규칙: github.com/workzeroai/llm-doc-extraction-pipeline",
+        "height": 220,
+        "width": 760,
+        "color": 5
+      },
+      "id": "5fa2fc45-4f87-5438-a39d-c3f74772385a",
+      "name": "안내",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        -420
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 실패 방어\n- LLM 노드: 실패 시 3회 재시도 후에도 오류면 **멈추지 않고** 다음 노드로 넘김 → 검증 노드가 `PROVIDER_ERROR`로 분류\n- 검증 노드: 응답 형식·스키마·합계·날짜·필수값·사업자번호 검증번호\n- 실패·애매한 건은 저장하지 않고 확인 대기열 시트 + 알림",
+        "height": 220,
+        "width": 620,
+        "color": 3
+      },
+      "id": "5ee7ed94-3dbc-51ae-b284-1b8dba4c94e2",
+      "name": "실패 방어",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        -420
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "doc-extract",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "54ccc495-6648-5969-a36a-d129e1b01ec6",
+      "name": "PDF 업로드 (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "2e5e2c16-4c15-5ef5-80ef-7afabf91641d"
+    },
+    {
+      "parameters": {
+        "triggerOn": "folder",
+        "path": "/data/inbox",
+        "events": [
+          "add"
+        ],
+        "options": {}
+      },
+      "id": "43248320-3020-598e-ac64-44979c7a49b2",
+      "name": "폴더 감시 (inbox)",
+      "type": "n8n-nodes-base.localFileTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $json.path }}",
+        "options": {}
+      },
+      "id": "12d61bab-484e-5172-99b4-d818b655672f",
+      "name": "PDF 읽기",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        220,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "data",
+        "options": {}
+      },
+      "id": "af4139c6-4a43-5e1c-bec2-0bf75f4a5e08",
+      "name": "PDF 텍스트 추출",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        440,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// n8n Code 노드: 텍스트 확인 · 유형 분류 · 프롬프트 만들기 (모드: Run Once for All Items)\n// Python 기준 구현 pipeline/pdftext.py · pipeline/classify.py · pipeline/prompts.py 와 같은 규칙이다.\n// SCHEMAS는 scripts/build_n8n.py가 schemas/*.json에서 넣는다(손으로 고치지 않는다).\nconst SCHEMAS = {\"contract\": {\"label\": \"계약서\", \"labels\": {\"contract_no\": \"계약번호\", \"title\": \"계약명\", \"client_name\": \"발주자(갑)\", \"vendor_name\": \"수급자(을)\", \"vendor_biz_no\": \"수급자 사업자등록번호\", \"contract_date\": \"계약일\", \"start_date\": \"계약 시작일\", \"end_date\": \"계약 종료일\", \"supply_amount\": \"공급가액\", \"vat\": \"부가가치세\", \"total_amount\": \"총 계약금액\", \"payment_terms\": \"대금 지급 조건\", \"client_signer\": \"갑 대표자\", \"vendor_signer\": \"을 대표자\"}, \"types\": {\"contract_no\": [\"string\", \"null\"], \"title\": [\"string\", \"null\"], \"client_name\": [\"string\", \"null\"], \"vendor_name\": [\"string\", \"null\"], \"vendor_biz_no\": [\"string\", \"null\"], \"contract_date\": [\"string\", \"null\"], \"start_date\": [\"string\", \"null\"], \"end_date\": [\"string\", \"null\"], \"supply_amount\": [\"integer\", \"null\"], \"vat\": [\"integer\", \"null\"], \"total_amount\": [\"integer\", \"null\"], \"payment_terms\": [\"string\", \"null\"], \"client_signer\": [\"string\", \"null\"], \"vendor_signer\": [\"string\", \"null\"]}, \"required_values\": [\"contract_no\", \"client_name\", \"vendor_name\", \"contract_date\", \"start_date\", \"end_date\", \"supply_amount\", \"vat\", \"total_amount\"], \"biz_fields\": [\"vendor_biz_no\"]}, \"quote\": {\"label\": \"견적서\", \"labels\": {\"quote_no\": \"견적번호\", \"issue_date\": \"견적일\", \"valid_until\": \"유효기한\", \"supplier_name\": \"공급자\", \"supplier_biz_no\": \"공급자 사업자등록번호\", \"client_name\": \"수신(고객)\", \"manager\": \"담당자\", \"items\": \"품목\", \"subtotal\": \"공급가액 합계\", \"vat\": \"부가세\", \"total\": \"총 견적금액\"}, \"types\": {\"quote_no\": [\"string\", \"null\"], \"issue_date\": [\"string\", \"null\"], \"valid_until\": [\"string\", \"null\"], \"supplier_name\": [\"string\", \"null\"], \"supplier_biz_no\": [\"string\", \"null\"], \"client_name\": [\"string\", \"null\"], \"manager\": [\"string\", \"null\"], \"items\": [\"array\", \"null\"], \"subtotal\": [\"integer\", \"null\"], \"vat\": [\"integer\", \"null\"], \"total\": [\"integer\", \"null\"]}, \"required_values\": [\"quote_no\", \"issue_date\", \"supplier_name\", \"client_name\", \"items\", \"subtotal\", \"vat\", \"total\"], \"biz_fields\": [\"supplier_biz_no\"]}, \"invoice\": {\"label\": \"청구서\", \"labels\": {\"invoice_no\": \"청구번호\", \"issue_date\": \"발행일\", \"due_date\": \"납부기한\", \"supplier_name\": \"공급자\", \"supplier_biz_no\": \"공급자 사업자등록번호\", \"buyer_name\": \"공급받는자\", \"buyer_biz_no\": \"공급받는자 사업자등록번호\", \"items\": \"품목\", \"subtotal\": \"공급가액\", \"vat\": \"세액\", \"total\": \"청구금액 합계\", \"memo\": \"비고\"}, \"types\": {\"invoice_no\": [\"string\", \"null\"], \"issue_date\": [\"string\", \"null\"], \"due_date\": [\"string\", \"null\"], \"supplier_name\": [\"string\", \"null\"], \"supplier_biz_no\": [\"string\", \"null\"], \"buyer_name\": [\"string\", \"null\"], \"buyer_biz_no\": [\"string\", \"null\"], \"items\": [\"array\", \"null\"], \"subtotal\": [\"integer\", \"null\"], \"vat\": [\"integer\", \"null\"], \"total\": [\"integer\", \"null\"], \"memo\": [\"string\", \"null\"]}, \"required_values\": [\"invoice_no\", \"issue_date\", \"due_date\", \"supplier_name\", \"supplier_biz_no\", \"buyer_name\", \"items\", \"subtotal\", \"vat\", \"total\"], \"biz_fields\": [\"supplier_biz_no\", \"buyer_biz_no\"]}};\nconst MIN_CHARS = 30;\nconst MIN_SCORE = 5;\nconst MIN_MARGIN = 3;\nconst KEYWORDS = {\n  contract: [[\"계약서\", 5], [\"이하갑\", 3], [\"계약기간\", 2], [\"계약금액\", 2], [\"착수일\", 1], [\"용역\", 1], [\"갑과을\", 2]],\n  quote: [[\"견적서\", 5], [\"quotation\", 3], [\"견적번호\", 2], [\"유효기한\", 2], [\"견적합니다\", 2], [\"견적금액\", 1]],\n  invoice: [[\"청구서\", 5], [\"invoice\", 3], [\"청구번호\", 2], [\"납부기한\", 2], [\"공급받는자\", 2], [\"청구금액\", 1]],\n};\n\nfunction classify(text) {\n  const flat = text.replace(/[\\s\"'“”]+/g, \"\").toLowerCase();\n  const scores = {};\n  for (const [type, kws] of Object.entries(KEYWORDS)) {\n    scores[type] = kws.reduce((s, [kw, w]) => s + (flat.includes(kw) ? w : 0), 0);\n  }\n  const ranked = Object.entries(scores).sort((a, b) => b[1] - a[1]);\n  const [[top, s1], [second, s2]] = ranked;\n  if (s1 < MIN_SCORE) return { type: null, reason: `유형 낱말 점수가 낮음(${s1}점)` };\n  if (s1 - s2 < MIN_MARGIN) return { type: null, reason: `유형 후보가 둘 이상(${top} ${s1} · ${second} ${s2})` };\n  return { type: top, reason: \"\" };\n}\n\nfunction userPrompt(text, type) {\n  const s = SCHEMAS[type];\n  const fields = Object.entries(s.labels).map(([k, v]) => `- ${k}: ${v}`).join(\"\\n\");\n  return `문서 유형: ${s.label} (${type})\\n뽑을 필드:\\n${fields}\\n- uncertain_fields: 확신할 수 없는 필드 이름 목록\\n\\n` +\n    `JSON 객체 하나로만 답하세요. 키는 위 필드 이름 그대로, 품목(items)은 {name, qty, unit_price, amount} 배열입니다.\\n\\n` +\n    `<document>\\n${text}\\n</document>`;\n}\n\nconst out = [];\nfor (const [i, item] of $input.all().entries()) {\n  const text = String(item.json.text || \"\");\n  // 문서 ID: 앞 단계가 준 doc_id → PDF 메타데이터 제목(예: \"견적서 QT-07\") → 순번\n  const title = item.json.info && item.json.info.Title ? String(item.json.info.Title) : \"\";\n  const idInTitle = title.match(/[A-Z]{2}-\\d{2}/);\n  const docId = String(item.json.doc_id || (idInTitle ? idInTitle[0] : title) || `upload-${i + 1}`);\n  const base = { doc_id: docId, text_chars: text.trim().length };\n  if (text.trim().length < MIN_CHARS) {\n    out.push({ json: { ...base, route: \"review\", doc_type: null, reason_code: \"TEXT_EXTRACTION_FAILED\",\n      detail: `텍스트 ${text.trim().length}자 — 텍스트 층이 없는 스캔 이미지로 보임(OCR 필요)` } });\n    continue;\n  }\n  const c = classify(text);\n  if (!c.type) {\n    out.push({ json: { ...base, route: \"review\", doc_type: null, reason_code: \"CLASSIFICATION_UNCERTAIN\", detail: c.reason } });\n    continue;\n  }\n  out.push({ json: { ...base, route: \"extract\", doc_type: c.type, prompt: userPrompt(text, c.type) } });\n}\nreturn out;\n"
+      },
+      "id": "21c8c8ce-4fb2-5ae2-914c-54ff89efe995",
+      "name": "텍스트 확인·유형 분류",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "f87188b7-4cf9-5082-bde2-cc5f5c75f412",
+              "leftValue": "={{ $json.route }}",
+              "rightValue": "extract",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "505acc02-277f-5edc-8038-230894376805",
+      "name": "추출 가능?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        880,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.prompt }}",
+        "hasOutputParser": false,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "당신은 한국어 업무 문서(계약서·견적서·청구서)에서 값을 뽑아 JSON 하나로만 답하는 추출기입니다.\n\n규칙\n1. 문서에 적힌 값만 옮깁니다. 문서에 없는 값은 null로 둡니다. 추측하거나 계산해서 채우지 않습니다.\n   합계가 틀려 보여도 문서에 인쇄된 값을 그대로 씁니다(검증은 다음 단계가 합니다).\n2. 날짜는 YYYY-MM-DD로 바꿉니다. '26.03.05'처럼 연도가 두 자리면 2000년대로 봅니다.\n3. 금액은 원 단위 정수입니다. 쉼표·₩·'원'을 빼고, '금 일천이백만원정' 같은 한글 금액도 숫자로 바꿉니다.\n4. 사업자등록번호는 000-00-00000 형식으로 씁니다.\n5. 품목은 표의 행 순서대로 적고, 셀 안에서 줄이 바뀐 품목명은 한 줄로 이어 씁니다.\n6. 스캔 잡음 때문에 확신할 수 없는 값은 가장 그럴듯한 값을 쓰고, 그 필드 이름을 uncertain_fields에 넣습니다.\n7. JSON 밖의 설명은 쓰지 않습니다."
+            }
+          ]
+        }
+      },
+      "id": "6266fc96-3d5d-55a4-8709-891b7f5fff9c",
+      "name": "LLM 구조화 추출",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        1100,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {
+          "temperature": 0
+        }
+      },
+      "id": "a819433d-9afb-5def-915d-ecd881dfff60",
+      "name": "Gemini 모델",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// n8n Code 노드: LLM 응답 해석 → 스키마 검사 → 업무 규칙 검증 → 분기 표시 (모드: Run Once for All Items)\n// Python 기준 구현 pipeline/validate.py 와 같은 규칙(S01, R01~R08, C01)이다.\n// SCHEMAS는 scripts/build_n8n.py가 schemas/*.json에서 넣는다(손으로 고치지 않는다).\nconst SCHEMAS = {\"contract\": {\"label\": \"계약서\", \"labels\": {\"contract_no\": \"계약번호\", \"title\": \"계약명\", \"client_name\": \"발주자(갑)\", \"vendor_name\": \"수급자(을)\", \"vendor_biz_no\": \"수급자 사업자등록번호\", \"contract_date\": \"계약일\", \"start_date\": \"계약 시작일\", \"end_date\": \"계약 종료일\", \"supply_amount\": \"공급가액\", \"vat\": \"부가가치세\", \"total_amount\": \"총 계약금액\", \"payment_terms\": \"대금 지급 조건\", \"client_signer\": \"갑 대표자\", \"vendor_signer\": \"을 대표자\"}, \"types\": {\"contract_no\": [\"string\", \"null\"], \"title\": [\"string\", \"null\"], \"client_name\": [\"string\", \"null\"], \"vendor_name\": [\"string\", \"null\"], \"vendor_biz_no\": [\"string\", \"null\"], \"contract_date\": [\"string\", \"null\"], \"start_date\": [\"string\", \"null\"], \"end_date\": [\"string\", \"null\"], \"supply_amount\": [\"integer\", \"null\"], \"vat\": [\"integer\", \"null\"], \"total_amount\": [\"integer\", \"null\"], \"payment_terms\": [\"string\", \"null\"], \"client_signer\": [\"string\", \"null\"], \"vendor_signer\": [\"string\", \"null\"]}, \"required_values\": [\"contract_no\", \"client_name\", \"vendor_name\", \"contract_date\", \"start_date\", \"end_date\", \"supply_amount\", \"vat\", \"total_amount\"], \"biz_fields\": [\"vendor_biz_no\"]}, \"quote\": {\"label\": \"견적서\", \"labels\": {\"quote_no\": \"견적번호\", \"issue_date\": \"견적일\", \"valid_until\": \"유효기한\", \"supplier_name\": \"공급자\", \"supplier_biz_no\": \"공급자 사업자등록번호\", \"client_name\": \"수신(고객)\", \"manager\": \"담당자\", \"items\": \"품목\", \"subtotal\": \"공급가액 합계\", \"vat\": \"부가세\", \"total\": \"총 견적금액\"}, \"types\": {\"quote_no\": [\"string\", \"null\"], \"issue_date\": [\"string\", \"null\"], \"valid_until\": [\"string\", \"null\"], \"supplier_name\": [\"string\", \"null\"], \"supplier_biz_no\": [\"string\", \"null\"], \"client_name\": [\"string\", \"null\"], \"manager\": [\"string\", \"null\"], \"items\": [\"array\", \"null\"], \"subtotal\": [\"integer\", \"null\"], \"vat\": [\"integer\", \"null\"], \"total\": [\"integer\", \"null\"]}, \"required_values\": [\"quote_no\", \"issue_date\", \"supplier_name\", \"client_name\", \"items\", \"subtotal\", \"vat\", \"total\"], \"biz_fields\": [\"supplier_biz_no\"]}, \"invoice\": {\"label\": \"청구서\", \"labels\": {\"invoice_no\": \"청구번호\", \"issue_date\": \"발행일\", \"due_date\": \"납부기한\", \"supplier_name\": \"공급자\", \"supplier_biz_no\": \"공급자 사업자등록번호\", \"buyer_name\": \"공급받는자\", \"buyer_biz_no\": \"공급받는자 사업자등록번호\", \"items\": \"품목\", \"subtotal\": \"공급가액\", \"vat\": \"세액\", \"total\": \"청구금액 합계\", \"memo\": \"비고\"}, \"types\": {\"invoice_no\": [\"string\", \"null\"], \"issue_date\": [\"string\", \"null\"], \"due_date\": [\"string\", \"null\"], \"supplier_name\": [\"string\", \"null\"], \"supplier_biz_no\": [\"string\", \"null\"], \"buyer_name\": [\"string\", \"null\"], \"buyer_biz_no\": [\"string\", \"null\"], \"items\": [\"array\", \"null\"], \"subtotal\": [\"integer\", \"null\"], \"vat\": [\"integer\", \"null\"], \"total\": [\"integer\", \"null\"], \"memo\": [\"string\", \"null\"]}, \"required_values\": [\"invoice_no\", \"issue_date\", \"due_date\", \"supplier_name\", \"supplier_biz_no\", \"buyer_name\", \"items\", \"subtotal\", \"vat\", \"total\"], \"biz_fields\": [\"supplier_biz_no\", \"buyer_biz_no\"]}};\nconst SOURCE_NODE = \"텍스트 확인·유형 분류\";\nconst ORDER = [\"TEXT_EXTRACTION_FAILED\", \"CLASSIFICATION_UNCERTAIN\", \"PROVIDER_ERROR\", \"SCHEMA_MISMATCH\", \"RULE_VIOLATION\", \"LOW_CONFIDENCE\"];\nconst DATE_FIELDS = [\"contract_date\", \"start_date\", \"end_date\", \"issue_date\", \"valid_until\", \"due_date\"];\nconst DATE_ORDER = { contract: [[\"start_date\", \"end_date\"]], quote: [[\"issue_date\", \"valid_until\"]], invoice: [[\"issue_date\", \"due_date\"]] };\nconst MONEY = { contract: [\"supply_amount\", \"vat\", \"total_amount\"], quote: [\"subtotal\", \"vat\", \"total\"], invoice: [\"subtotal\", \"vat\", \"total\"] };\nconst won = (n) => `${Number(n).toLocaleString(\"en-US\")}원`;\n\nfunction parseJson(raw) {\n  let t = String(raw || \"\").trim();\n  if (t.startsWith(\"```\")) t = t.replace(/^```[a-zA-Z]*\\n?/, \"\").replace(/```\\s*$/, \"\");\n  const obj = JSON.parse(t);\n  if (obj === null || typeof obj !== \"object\" || Array.isArray(obj)) throw new Error(\"JSON 객체가 아님\");\n  return obj;\n}\n\nfunction typeOk(v, types) {\n  return types.some((t) => (t === \"null\" && v === null) || (t === \"string\" && typeof v === \"string\") ||\n    (t === \"integer\" && Number.isInteger(v)) || (t === \"array\" && Array.isArray(v)));\n}\n\nfunction schemaIssues(type, data) {\n  const s = SCHEMAS[type];\n  const issues = [];\n  for (const k of Object.keys(s.types)) {\n    if (!(k in data)) issues.push({ code: \"S01\", field: k, message: `${k}: 필수 키가 없음` });\n    else if (!typeOk(data[k], s.types[k])) issues.push({ code: \"S01\", field: k, message: `${k}: 타입이 ${s.types[k].join(\"|\")}가 아님` });\n  }\n  for (const k of Object.keys(data)) if (!(k in s.types)) issues.push({ code: \"S01\", field: k, message: `${k}: 스키마에 없는 키` });\n  for (const k of s.biz_fields) {\n    if (typeof data[k] === \"string\" && !/^\\d{3}-\\d{2}-\\d{5}$/.test(data[k])) issues.push({ code: \"S01\", field: k, message: `${k}: 000-00-00000 형식이 아님` });\n  }\n  for (const [i, it] of (Array.isArray(data.items) ? data.items : []).entries()) {\n    const ok = it && typeof it.name === \"string\" && Number.isInteger(it.qty) && Number.isInteger(it.unit_price) && Number.isInteger(it.amount);\n    if (!ok) issues.push({ code: \"S01\", field: `items.${i}`, message: `items.${i}: name·qty·unit_price·amount 형식 오류` });\n  }\n  return issues;\n}\n\nfunction bizNoValid(v) {\n  const d = v.replace(/\\D/g, \"\").split(\"\").map(Number);\n  if (d.length !== 10) return false;\n  const w = [1, 3, 7, 1, 3, 7, 1, 3, 5];\n  const total = w.reduce((s, wi, i) => s + d[i] * wi, 0) + Math.floor((d[8] * 5) / 10);\n  return (10 - (total % 10)) % 10 === d[9];\n}\n\nfunction ruleIssues(type, data) {\n  const s = SCHEMAS[type];\n  const L = s.labels;\n  const issues = [];\n  for (const f of s.required_values) {\n    const v = data[f];\n    if (v === null || v === undefined || (Array.isArray(v) && v.length === 0)) issues.push({ code: \"R01\", field: f, message: `${L[f]}(${f}) 값이 없음` });\n  }\n  const parsed = {};\n  for (const f of DATE_FIELDS) {\n    const v = data[f];\n    if (v === null || v === undefined || !(f in L)) continue;\n    const m = /^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(v);\n    const dt = m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])) : null;\n    if (!m || dt.getUTCMonth() !== +m[2] - 1 || dt.getUTCDate() !== +m[3]) issues.push({ code: \"R02\", field: f, message: `${L[f]} '${v}'가 YYYY-MM-DD 형식의 날짜가 아님` });\n    else parsed[f] = v;\n  }\n  for (const [a, b] of DATE_ORDER[type]) {\n    if (parsed[a] && parsed[b] && parsed[a] > parsed[b]) issues.push({ code: \"R03\", field: b, message: `${L[a]} ${parsed[a]} > ${L[b]} ${parsed[b]}` });\n  }\n  const [sf, vf, tf] = MONEY[type];\n  const items = data.items;\n  if (Array.isArray(items) && items.length) {\n    items.forEach((it, i) => {\n      if (it.qty * it.unit_price !== it.amount) {\n        issues.push({ code: \"R04\", field: `items.${i}.amount`, message: `품목 ${i + 1} '${it.name}': ${it.qty.toLocaleString(\"en-US\")} × ${won(it.unit_price)} = ${won(it.qty * it.unit_price)} ≠ 인쇄 ${won(it.amount)}` });\n      }\n    });\n    const sum = items.reduce((acc, it) => acc + it.amount, 0);\n    if (data[sf] !== null && data[sf] !== undefined && sum !== data[sf]) issues.push({ code: \"R05\", field: sf, message: `${L[sf]} ${won(data[sf])} ≠ 품목 합 ${won(sum)}` });\n  }\n  const supply = data[sf], vat = data[vf], total = data[tf];\n  const has = (x) => x !== null && x !== undefined;\n  if (has(supply) && has(vat) && Math.abs(vat - supply * 0.1) > 1) issues.push({ code: \"R06\", field: vf, message: `${L[vf]} ${won(vat)} ≠ ${L[sf]}의 10% ${won(Math.floor(supply / 10))}` });\n  if (has(supply) && has(vat) && has(total) && supply + vat !== total) issues.push({ code: \"R07\", field: tf, message: `${L[tf]} ${won(total)} ≠ ${won(supply)} + ${won(vat)} = ${won(supply + vat)}` });\n  for (const f of s.biz_fields) {\n    if (data[f] && !bizNoValid(data[f])) issues.push({ code: \"R08\", field: f, message: `${L[f]} ${data[f]} 검증번호 불일치(오인식 또는 오기 가능)` });\n  }\n  return issues;\n}\n\nconst REASON_OF = (code) => (code === \"S01\" ? \"SCHEMA_MISMATCH\" : code === \"C01\" ? \"LOW_CONFIDENCE\" : \"RULE_VIOLATION\");\n\nconst out = [];\nconst items = $input.all();\nfor (let i = 0; i < items.length; i++) {\n  const item = items[i];\n  const src = $(SOURCE_NODE).itemMatching(i).json;\n  const base = { doc_id: src.doc_id, doc_type: src.doc_type };\n  if (item.json.error) {\n    out.push({ json: { ...base, status: \"review\", reason_code: \"PROVIDER_ERROR\", detail: `LLM 호출 실패(재시도 후): ${JSON.stringify(item.json.error).slice(0, 200)}`, data: null } });\n    continue;\n  }\n  let parsed;\n  try {\n    parsed = parseJson(item.json.text ?? (item.json.response && item.json.response.text));\n  } catch (e) {\n    out.push({ json: { ...base, status: \"review\", reason_code: \"SCHEMA_MISMATCH\", detail: `응답 형식 오류: ${e.message}`, data: null } });\n    continue;\n  }\n  const uncertain = Array.isArray(parsed.uncertain_fields) ? parsed.uncertain_fields : [];\n  delete parsed.uncertain_fields;\n  let issues = schemaIssues(src.doc_type, parsed);\n  if (!issues.length) {\n    issues = ruleIssues(src.doc_type, parsed);\n    const req = new Set(SCHEMAS[src.doc_type].required_values);\n    for (const f of uncertain) if (req.has(f)) issues.push({ code: \"C01\", field: f, message: `${SCHEMAS[src.doc_type].labels[f] || f}(${f}) — 추출기가 확신 없음으로 표시` });\n  }\n  if (!issues.length) {\n    out.push({ json: { ...base, status: \"saved\", reason_code: null, detail: \"\", data: parsed, data_json: JSON.stringify(parsed) } });\n    continue;\n  }\n  const main = issues.reduce((m, x) => (ORDER.indexOf(REASON_OF(x.code)) < ORDER.indexOf(REASON_OF(m.code)) ? x : m));\n  const reason = REASON_OF(main.code);\n  const same = issues.filter((x) => REASON_OF(x.code) === reason);\n  const detail = same.slice(0, 3).map((x) => `${x.code}: ${x.message}`).join(\" / \") + (same.length > 3 ? ` 외 ${same.length - 3}건` : \"\");\n  out.push({ json: { ...base, status: \"review\", reason_code: reason, detail, issues, data: parsed, data_json: JSON.stringify(parsed) } });\n}\nreturn out;\n"
+      },
+      "id": "86015d73-ab42-5045-b408-78fd995862a1",
+      "name": "스키마·업무 규칙 검증",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "995deb2c-9018-505a-8270-1ccf3d8a10d8",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "saved",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "33644589-7652-54e6-810c-9c32185dc884",
+      "name": "검증 통과?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1580,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "REPLACE_WITH_GOOGLE_SHEET_ID"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "extracted"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "doc_id": "={{ $json.doc_id }}",
+            "doc_type": "={{ $json.doc_type }}",
+            "data_json": "={{ $json.data_json }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "doc_id",
+              "displayName": "doc_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "doc_type",
+              "displayName": "doc_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data_json",
+              "displayName": "data_json",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "29e24c43-bb14-5003-a135-d776cb1e3c61",
+      "name": "저장 (Google Sheets: extracted)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1820,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "REPLACE_WITH_GOOGLE_SHEET_ID"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "review_queue"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "doc_id": "={{ $json.doc_id }}",
+            "doc_type": "={{ $json.doc_type }}",
+            "reason_code": "={{ $json.reason_code }}",
+            "detail": "={{ $json.detail }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "doc_id",
+              "displayName": "doc_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "doc_type",
+              "displayName": "doc_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "reason_code",
+              "displayName": "reason_code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "detail",
+              "displayName": "detail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ff334ef3-7dfc-54a0-9e88-f31591ceceea",
+      "name": "확인 대기열 (Google Sheets: review_queue)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1820,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://hooks.example.com/REPLACE_WITH_YOUR_WEBHOOK",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ text: `[확인 필요] ${$json.doc_id} · ${$json.reason_code} · ${$json.detail}`, content: `[확인 필요] ${$json.doc_id} · ${$json.reason_code} · ${$json.detail}` }) }}",
+        "options": {}
+      },
+      "id": "453eb6c8-055a-58f0-9047-88ef78cf2bc5",
+      "name": "알림 (웹훅)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2060,
+        160
+      ],
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "PDF 업로드 (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "PDF 텍스트 추출",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "폴더 감시 (inbox)": {
+      "main": [
+        [
+          {
+            "node": "PDF 읽기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF 읽기": {
+      "main": [
+        [
+          {
+            "node": "PDF 텍스트 추출",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF 텍스트 추출": {
+      "main": [
+        [
+          {
+            "node": "텍스트 확인·유형 분류",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "텍스트 확인·유형 분류": {
+      "main": [
+        [
+          {
+            "node": "추출 가능?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "추출 가능?": {
+      "main": [
+        [
+          {
+            "node": "LLM 구조화 추출",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "확인 대기열 (Google Sheets: review_queue)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini 모델": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "LLM 구조화 추출",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM 구조화 추출": {
+      "main": [
+        [
+          {
+            "node": "스키마·업무 규칙 검증",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "스키마·업무 규칙 검증": {
+      "main": [
+        [
+          {
+            "node": "검증 통과?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "검증 통과?": {
+      "main": [
+        [
+          {
+            "node": "저장 (Google Sheets: extracted)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "확인 대기열 (Google Sheets: review_queue)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "확인 대기열 (Google Sheets: review_queue)": {
+      "main": [
+        [
+          {
+            "node": "알림 (웹훅)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": []
+}

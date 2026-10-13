@@ -1,0 +1,26 @@
+{
+  "doc_id": "CT-02",
+  "file": "CT-02.pdf",
+  "doc_type": "contract",
+  "variant": "B",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "contract_no": "CT-2026-7741",
+    "title": "홈페이지 리뉴얼 용역",
+    "client_name": "(주)솔마루솔루션즈",
+    "vendor_name": "늘해랑컨설팅 주식회사",
+    "vendor_biz_no": "874-83-24202",
+    "contract_date": "2026-08-01",
+    "start_date": "2026-08-11",
+    "end_date": "2026-10-10",
+    "supply_amount": 23200000,
+    "vat": 2320000,
+    "total_amount": 25520000,
+    "payment_terms": "착수금 50%, 중도금 없이 잔금 50% 완료 후 지급",
+    "client_signer": "신준호",
+    "vendor_signer": "한건우"
+  }
+}

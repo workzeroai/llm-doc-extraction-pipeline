@@ -1,0 +1,26 @@
+{
+  "doc_id": "CT-05",
+  "file": "CT-05.pdf",
+  "doc_type": "contract",
+  "variant": "A",
+  "difficulty": [],
+  "render": "pdf",
+  "must_review": false,
+  "expected_reasons": [],
+  "fields": {
+    "contract_no": "CT-2026-4764",
+    "title": "데이터 분석 리포트 용역",
+    "client_name": "주식회사 한빛누리컨설팅",
+    "vendor_name": "(주)도담결솔루션즈",
+    "vendor_biz_no": "280-82-90536",
+    "contract_date": "2026-04-16",
+    "start_date": "2026-04-21",
+    "end_date": "2026-11-20",
+    "supply_amount": 39000000,
+    "vat": 3900000,
+    "total_amount": 42900000,
+    "payment_terms": "매월 말일 기준 월 단위 정산 후 익월 10일 지급",
+    "client_signer": "조서준",
+    "vendor_signer": "윤건우"
+  }
+}

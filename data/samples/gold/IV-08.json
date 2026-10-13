@@ -1,0 +1,41 @@
+{
+  "doc_id": "IV-08",
+  "file": "IV-08.pdf",
+  "doc_type": "invoice",
+  "variant": "B",
+  "difficulty": [
+    "필드 누락"
+  ],
+  "render": "pdf",
+  "must_review": true,
+  "expected_reasons": [
+    "RULE_VIOLATION"
+  ],
+  "fields": {
+    "invoice_no": "INV-202602-4442",
+    "issue_date": "2026-02-16",
+    "due_date": null,
+    "supplier_name": "주식회사 바로미컨설팅",
+    "supplier_biz_no": "260-86-47649",
+    "buyer_name": "새벽별디자인랩 주식회사",
+    "buyer_biz_no": "467-83-28053",
+    "items": [
+      {
+        "name": "데이터 라벨링(이미지)",
+        "qty": 500,
+        "unit_price": 108,
+        "amount": 54000
+      },
+      {
+        "name": "사내 교육 워크숍",
+        "qty": 7,
+        "unit_price": 1500000,
+        "amount": 10500000
+      }
+    ],
+    "subtotal": 10554000,
+    "vat": 1055400,
+    "total": 11609400,
+    "memo": "문의는 담당 부서로 연락 바랍니다."
+  }
+}
