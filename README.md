@@ -230,6 +230,8 @@ DOCPIPE_WEBHOOK_URL=<수신 웹훅 URL> docpipe demo   # 대기열 알림을 Sla
 
 Providers are pluggable (Gemini, Claude, OpenAI via structured outputs, called only when an API key is present). Without keys, the default is a **rule/regex-based mock extractor — not an LLM** — so `pip install -e . && docpipe demo` runs end to end: generate 30 synthetic PDFs (50% hard cases: mixed date formats, amounts inside tables or written in Korean numerals, missing fields, total mismatches, noisy scans) → classify → extract → validate → route → evaluation report. With the mock extractor, all 6 defective documents went to the review queue with the expected reason code and none of the 21 saved documents contained a wrong value; these are mock-extractor numbers, not LLM accuracy. Running with `--provider gemini|anthropic|openai` produces the same report for a real model. An importable n8n workflow mirrors the same rules, and its Code-node JavaScript is tested against the Python validator. 87 pytest tests, 96% coverage, ruff-clean; CI runs the offline evaluation. The "in production" figures above come from the author's real work and are unrelated to this demo.
 
+**만든 사람 · Author** — 전병국 · [workzeroai@gmail.com](mailto:workzeroai@gmail.com) · [GitHub](https://github.com/workzeroai) · [포트폴리오](https://workzero.notion.site/AX-_-3d312e3c61c981958e60f69a8f6d546e)
+
 ---
 
 MIT © workzeroai
